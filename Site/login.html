@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Caminho do Saber</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d4b9e;
+            --primary-dark: #0a3a7a;
+            --primary-light: #3a6cb5;
+            --primary-extra-light: rgba(13, 75, 158, 0.1);
+            --gold-color: #D4AF37;
+            --gold-light: #E6C200;
+            --gold-dark: #996515;
+            --black: #212529;
+            --dark-black: #121212;
+            --white: #ffffff;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e0e5ec;
+            --dark-gray: #6c757d;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gold-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--black);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Layout Grid */
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Banner Section */
+        .banner-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-black));
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-right: 3px solid var(--gold-color);
+        }
+
+        .banner-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        .banner-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: var(--border-radius);
+            border: 3px solid var(--gold-color);
+            box-shadow: var(--gold-shadow);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .banner-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .banner-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .banner-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: var(--gold-color);
+            display: block;
+            margin-top: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Login Section */
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-color: var(--white);
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gold-light);
+        }
+
+        .login-form-container:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--gold-color);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gold-color);
+            border-radius: 3px;
+        }
+
+        .form-subtitle {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--black);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            background-color: var(--light-gray);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background-color: var(--white);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 70%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--dark-gray);
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--gold-dark);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(13, 75, 158, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 75, 158, 0.4);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                          rgba(212, 175, 55, 0.2), 
+                          rgba(212, 175, 55, 0.1));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .form-footer a:hover {
+            color: var(--gold-dark);
+        }
+
+        .form-footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-color);
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover::after {
+            width: 100%;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--dark-gray);
+            font-size: 0.8rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .divider::before {
+            margin-right: 1rem;
+        }
+
+        .divider::after {
+            margin-left: 1rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner-section {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-form-container {
+                padding: 1.5rem;
+                box-shadow: none;
+                border: none;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Banner Section -->
+        <div class="banner-section">
+            <div class="banner-content animate-in">
+                <img src="imagem/estudante7.png" alt="Estudante" class="banner-image delay-1">
+                <h2 class="banner-title delay-1">Cada passo que você dá é uma conquista</h2>
+                <p class="banner-text delay-2">O aprendizado é a chave que abre portas para um futuro cheio de possibilidades.</p>
+                <p class="banner-text delay-2">Continue firme, o esforço de hoje é a vitória de amanhã!</p>
+                <span class="highlight delay-2">Bem-vindo de volta ao Caminho do Saber!</span>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div class="login-section">
+            <div class="login-form-container animate-in">
+                <div class="form-header">
+                    <h1 class="form-title">Realize seu Login</h1>
+                    <p class="form-subtitle">Acesse sua conta para continuar sua jornada</p>
+                </div>
+
+                <form class="login-form" method="POST" action="exibeLogin.php">
+                    <div class="form-group">
+                        <label for="usuarioLogin" class="form-label">Nome de Usuário</label>
+                        <input type="text" id="usuarioLogin" name="usuarioLogin" class="form-control" placeholder="Digite seu usuário" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginSenha" class="form-label">Senha</label>
+                        <input type="password" id="loginSenha" name="loginSenha" class="form-control" placeholder="Digite sua senha" required>
+                        <span class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye-slash"></i>
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+
+                    <div class="divider">ou</div>
+
+                    <div class="form-footer">
+                        <p>Esqueceu a senha?<a href="esqueceuSenha/esqueceuSenha.php"> Clique aqui!</a></p>
+                    </div>
+
+                    <div class="form-footer">
+                        <p>Não possui conta? <a href="cadastro.html">Cadastre-se</a></p>
+                        <p><a href="index.php">Voltar à página inicial</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById("loginSenha");
+            const icon = document.querySelector(".password-toggle i");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
+
+        // Adiciona classes de animação aos elementos
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.animate-in, .delay-1, .delay-2');
+            
+            elements.forEach((el, index) => {
+                // Garante que as animações só ocorram quando o elemento estiver visível
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

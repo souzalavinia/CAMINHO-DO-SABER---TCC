@@ -1,0 +1,151 @@
+CREATE TABLE `images` (
+  `image` longblob NOT NULL,
+  `tipo` varchar(45) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `redefinicao_senha` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `chave` varchar(255) NOT NULL,
+  `expira_em` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_assinaturas` (
+  `id` int(11) NOT NULL,
+  `nomeUsuario` varchar(150) NOT NULL,
+  `telefoneUsuario` varchar(15) NOT NULL,
+  `emailUsuario` varchar(300) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `codigoEscola` varchar(45) NOT NULL,
+  `nomePlano` varchar(100) NOT NULL,
+  `descricaoPlano` varchar(535) NOT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_prova` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `anoProva` varchar(4) NOT NULL,
+  `id_instituicao` int(11) NOT NULL,
+  `serial` varchar(255) DEFAULT NULL COMMENT 'Código único para acesso a provas ocultas.',
+  `simulado` enum('sim','não') NOT NULL DEFAULT 'não' COMMENT 'Se for sim, a prova é oculta e acessível apenas por serial.'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_quest` (
+  `id` int(11) NOT NULL,
+  `quest` text DEFAULT NULL,
+  `alt_a` varchar(2000) NOT NULL,
+  `alt_b` varchar(2000) NOT NULL,
+  `alt_c` varchar(2000) NOT NULL,
+  `alt_d` varchar(2000) NOT NULL,
+  `alt_e` varchar(2000) NOT NULL,
+  `alt_corre` varchar(5) NOT NULL,
+  `foto` longblob DEFAULT NULL,
+  `tipo` varchar(255) DEFAULT NULL,
+  `prova` int(11) NOT NULL,
+  `numQuestao` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_redacao` (
+  `id` int(11) NOT NULL,
+  `temaRedacao` varchar(600) NOT NULL,
+  `redacao` mediumtext NOT NULL,
+  `notaRedacao` int(4) NOT NULL,
+  `errosRedacao` mediumtext NOT NULL,
+  `dataRedacao` varchar(45) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `nota_c1` int(11) DEFAULT 0,
+  `nota_c2` int(11) DEFAULT 0,
+  `nota_c3` int(11) DEFAULT 0,
+  `nota_c4` int(11) DEFAULT 0,
+  `nota_c5` int(11) DEFAULT 0,
+  `comentarios_json` text DEFAULT NULL,
+  `tituloRedacao` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `tb_tentativas` (
+  `id` int(11) NOT NULL,
+  `acertos` int(11) NOT NULL,
+  `erros` int(11) NOT NULL,
+  `idProva` int(11) NOT NULL,
+  `dataTentativa` varchar(10) NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_usuario` (
+  `id` int(11) NOT NULL,
+  `nomeCompleto` varchar(40) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nomeUsuario` varchar(100) NOT NULL,
+  `senha` varchar(535) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  `datNasc` varchar(10) NOT NULL,
+  `metaProvas` int(3) NOT NULL,
+  `fotoUsuario` longblob DEFAULT NULL,
+  `tipoImagem` varchar(50) DEFAULT NULL,
+  `plano` varchar(535) NOT NULL,
+  `tipoUsuario` varchar(255) NOT NULL,
+  `codigoEscola` varchar(45) NOT NULL,
+  `statusPlano` enum('pendente','habilitado') DEFAULT 'pendente',
+  `cpf` varchar(14) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_respostas` (
+  `id` int(11) NOT NULL,
+  `idTentativa` int(11) NOT NULL,
+  `idQuestao` int(11) NOT NULL,
+  `alternativa_marcada` varchar(5) NOT NULL,
+  `correta` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `tb_instituicao` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_escola` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `codigoEscola` varchar(30) NOT NULL,
+  `plano` enum('Essencial','Pro','Premiun') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_notificacoes` (
+  `id` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `mensagem` text NOT NULL,
+  `tipo` enum('info','alerta','sucesso','erro') DEFAULT 'info',
+  `status` enum('nao_lida','lida') DEFAULT 'nao_lida',
+  `dataEnvio` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_planos` (
+  `idPlanos` int(11) NOT NULL AUTO_INCREMENT,
+  `nomePlanos` varchar(500) NOT NULL,
+  `numAlunos` int(11) NOT NULL DEFAULT 800,
+  `simulados` varchar(255) DEFAULT NULL,
+  `redacao` varchar(255) DEFAULT NULL,
+  `preco` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`idPlanos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE tb_rascunho (
+    id_usuario INT NOT NULL,
+    id_prova INT NOT NULL,
+    id_questao INT NOT NULL,
+    resposta_marcada CHAR(1) NOT NULL, -- Resposta do usuário, ex: 'A', 'B', 'C'
+    data_rascunho DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Chave primária composta para garantir um único rascunho por (Usuário, Prova, Questão)
+    PRIMARY KEY (id_usuario, id_prova, id_questao),
+    
+    -- Índice para otimizar a busca por todos os rascunhos de um usuário em uma prova
+    INDEX idx_usuario_prova (id_usuario, id_prova)
+) ENGINE=InnoDB;
